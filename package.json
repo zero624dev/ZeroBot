@@ -17,7 +17,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "discord.js": "^14.22.1",
+    "discord.js": "^14.25.1",
     "google-sr": "^4.0.0",
     "hangul-js": "^0.2.6",
     "mongoose": "latest",
