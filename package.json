@@ -28,7 +28,9 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "latest",
-    "@types/sharp": "latest"
+    "@types/sharp": "latest",
+    "eslint": "^9.39.2",
+    "typescript-eslint": "^8.52.0"
   },
   "private": true,
   "peerDependencies": {
