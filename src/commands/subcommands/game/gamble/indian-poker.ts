@@ -100,7 +100,7 @@ export default class PetPet extends SubCommand {
                 if (betAmount < 1000) {
                     return resolve({
                         content: scripts.not_enough_money,
-                        ephemeral: true
+                        flags: ["Ephemeral"]
                     });
                 }
                 subtractUserWallet(interaction.user.id, betAmount).then(() => {

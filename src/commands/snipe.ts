@@ -158,7 +158,7 @@ export default class Eval extends Command {
                                 title: scripts.there_are_no_messages_on_channel_to_snipe(`<#${channel.id}>`),
                                 color: colors.error
                             }
-                        ], ephemeral: true
+                        ], flags: ["Ephemeral"]
                     });
                 }
 
@@ -182,7 +182,7 @@ export default class Eval extends Command {
                                 title: scripts.there_are_no_messages_to_snipe_from_user_on_channel(`@${user?.tag}`, `<#${channel.id}>`),
                                 color: colors.error
                             }
-                        ], ephemeral: true
+                        ], flags: ["Ephemeral"]
                     });
                 }
 
@@ -210,7 +210,7 @@ export default class Eval extends Command {
                                 title: scripts.there_are_no_messages_on_channel_to_snipe(`<#${channel.id}>`),
                                 color: colors.error
                             }
-                        ], ephemeral: true
+                        ], flags: ["Ephemeral"]
                     });
                 }
 
@@ -234,7 +234,7 @@ export default class Eval extends Command {
                                 title: scripts.there_are_no_messages_to_snipe_from_user_on_channel(`@${user?.tag}`, `<#${channel.id}>`),
                                 color: colors.error
                             }
-                        ], ephemeral: true
+                        ], flags: ["Ephemeral"]
                     });
                 }
 

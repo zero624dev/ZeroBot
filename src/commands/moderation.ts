@@ -94,7 +94,7 @@ export default class extends Command {
                 const amount = interaction.options.getInteger("amount", true);
                 const target = interaction.options.getUser("user");
 
-                interaction.deferReply({ ephemeral: true }).then(() => {
+                interaction.deferReply({ flags: ["Ephemeral"] }).then(() => {
                     new Promise<Collection<string, any>>((resolve, reject) => {
                         if (target) {
                             interaction.channel!.messages.fetch({ limit: amount, cache: false })
@@ -110,14 +110,14 @@ export default class extends Command {
                                     scripts.purged_messages_from_user(deletedMessages.size, target.id) :
                                     scripts.purged_messages(deletedMessages.size),
                                 color: colors.accent
-                            }], ephemeral: true
+                            }], flags: ["Ephemeral"]
                         });
                     }).catch(() => {
                         resolve({
                             embeds: [{
                                 title: scripts.failed_to_purge,
                                 color: colors.error
-                            }], ephemeral: true
+                            }], flags: ["Ephemeral"]
                         });
                     });
                 })

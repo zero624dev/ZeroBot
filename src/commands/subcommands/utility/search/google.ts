@@ -246,7 +246,7 @@ export default class extends SubCommand {
 //                                 description: "The link above leads directly to the google search results page.",
 //                                 footer: { text: `Provided by Google APIs  |  ${this.client.user?.username}` },
 //                                 color: colors.error
-//                             }], ephemeral: true
+//                             }], flags: ["Ephemeral"]
 //                         });
 //                     } else {
 //                         const searchTermJSON = searchJSON.queries.request[0].searchTerms;
@@ -323,7 +323,7 @@ export default class extends SubCommand {
 //                                 description: "The link above leads directly to the google search results page.",
 //                                 footer: { text: `Provided by Google APIs  |  ${this.client.user?.username}` },
 //                                 color: colors.error
-//                             }], ephemeral: true
+//                             }], flags: ["Ephemeral"]
 //                         });
 //                     } else {
 //                         const searchTermJSON = searchJSON.queries.request[0].searchTerms;

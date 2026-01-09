@@ -262,7 +262,7 @@ export default class extends SubCommand {
                         }
                     }
 
-                    resolve({ content: text || "아무 일도 일어나지 않았어요.", ephemeral: true });
+                    resolve({ content: text || "아무 일도 일어나지 않았어요.", flags: ["Ephemeral"] });
                 }).catch(reject);
             }
         });

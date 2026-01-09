@@ -228,7 +228,7 @@ export default class extends SubCommand {
                                 title: scripts.you_have_already_joined,
                                 color: colors.error
                             }
-                        ], ephemeral: true
+                        ], flags: ["Ephemeral"]
                     });
                 } else if (participants.length < 6) {
                     participants.push(interaction.user.id);
@@ -257,7 +257,7 @@ export default class extends SubCommand {
                                 footer: { text: `Game Is Full • ${this.client.user?.username}` },
                                 color: colors.error
                             }
-                        ], ephemeral: true
+                        ], flags: ["Ephemeral"]
                     })
                 }
             } else {
@@ -333,7 +333,7 @@ export default class extends SubCommand {
                                     title: scripts.wait_your_turn,
                                     color: colors.error
                                 }
-                            ], ephemeral: true
+                            ], flags: ["Ephemeral"]
                         });
                     }
                 } else {
@@ -343,7 +343,7 @@ export default class extends SubCommand {
                                 title: scripts.not_participant,
                                 color: colors.error
                             }
-                        ], ephemeral: true
+                        ], flags: ["Ephemeral"]
                     });
                 }
             }

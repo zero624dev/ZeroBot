@@ -167,7 +167,7 @@ export default class extends SubCommand {
                                 title: scripts.wait_your_turn,
                                 color: colors.error
                             }
-                        ], ephemeral: true
+                        ], flags: ["Ephemeral"]
                     });
                 }
 
@@ -225,7 +225,7 @@ export default class extends SubCommand {
                             title: scripts.not_participant,
                             color: colors.error
                         }
-                    ], ephemeral: true
+                    ], flags: ["Ephemeral"]
                 });
             }
         })

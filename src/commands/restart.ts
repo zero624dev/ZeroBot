@@ -34,7 +34,7 @@ export default class Restart extends Command {
 
     chatInput(interaction: ChatInputCommandInteraction) {
         return new Promise<InteractionReplyOptions>((_resolve, _reject) => {
-            interaction.deferReply({ ephemeral: true }).then(() => {
+            interaction.deferReply({ flags: ["Ephemeral"] }).then(() => {
                 const configPath = path.join(import.meta.dir, "../config.json");
                 const restartAll = interaction.options.getBoolean("all");
 

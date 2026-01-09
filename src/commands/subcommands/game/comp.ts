@@ -95,7 +95,7 @@ export default class Comp extends SubCommand {
                                         }
                                     ]
                                 }
-                            ], ephemeral: true
+                            ], flags: ["Ephemeral"]
                         });
                     }
 
@@ -133,7 +133,7 @@ export default class Comp extends SubCommand {
                                             description: `<t:${Math.round((43200000 + userData.lastVote) / 1000)}:R>`,
                                             color: colors.error
                                         }
-                                    ], ephemeral: true
+                                    ], flags: ["Ephemeral"]
                                 });
                             }
                         } else {
@@ -161,7 +161,7 @@ export default class Comp extends SubCommand {
                                             }
                                         ]
                                     }
-                                ], ephemeral: true
+                                ], flags: ["Ephemeral"]
                             });
                         }
                     }).catch(reject);

@@ -111,7 +111,7 @@ export default class PetPet extends SubCommand {
                 if (betAmount < 1000) {
                     return resolve({
                         content: scripts.not_enough_money,
-                        ephemeral: true
+                        flags: ["Ephemeral"]
                     });
                 }
                 const evenodd = MathUtils.randomRange(0, 1);

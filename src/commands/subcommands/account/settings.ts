@@ -37,7 +37,7 @@ export default class Ship extends SubCommand {
             school_setting: "학교 설정",
             school_setting_desc: "학교 관련 명령어에서 사용할 정보를 설정합니다."
 
-            
+
         },
         "en-US": {
             account_setting_menu: "Account Setting Menu",
@@ -205,7 +205,7 @@ export default class Ship extends SubCommand {
                 resolve(this.getMenu(interaction, "main"));
             } else if (args[0] == "school") {
                 if (args[1] == "showInfo") {
-                    interaction.deferReply({ ephemeral: true }).then(() => {
+                    interaction.deferReply({ flags: ["Ephemeral"] }).then(() => {
                         mongoose.model("User").findById(interaction.user.id, "school").then(user => {
                             if (!user?.school) {
                                 return interaction.editReply({
@@ -231,7 +231,7 @@ export default class Ship extends SubCommand {
                         }).catch(reject);
                     }).catch(reject);
                 } else if (args[1] == "deleteInfo") {
-                    interaction.deferReply({ ephemeral: true }).then(() => {
+                    interaction.deferReply({ flags: ["Ephemeral"] }).then(() => {
                         mongoose.model("User").findByIdAndUpdate(interaction.user.id, { $unset: { school: "" } }).then(() => {
                             resolve({
                                 embeds: [
@@ -244,7 +244,7 @@ export default class Ship extends SubCommand {
                             });
                         }).catch(reject);
                     }).catch(reject);
-                
+
                 } else if (args[1] == "setSchool") {
                     interaction.showModal({
                         title: "힉교 설정",
@@ -302,7 +302,7 @@ export default class Ship extends SubCommand {
                 const schoolName = interaction.fields.getTextInputValue("schoolName");
                 const grade = interaction.fields.getTextInputValue("grade");
                 const classNum = interaction.fields.getTextInputValue("classNum");
-                interaction.deferReply({ ephemeral: true }).then(() => {
+                interaction.deferReply({ flags: ["Ephemeral"] }).then(() => {
                     fetch(
                         `https://open.neis.go.kr/hub/schoolInfo?KEY=${NEIS_TOKEN}&Type=json&SCHUL_NM=${encodeURI(schoolName)}`
                     ).then(res => res.json()).then((data: any) => {

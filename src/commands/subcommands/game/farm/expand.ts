@@ -70,7 +70,7 @@ export default class PetPet extends SubCommand {
                             title: scripts.no_more_expansion,
                             color: colors.error
                         }],
-                        ephemeral: true
+                        flags: ["Ephemeral"]
                     });
                 }
 
@@ -104,7 +104,7 @@ export default class PetPet extends SubCommand {
                             title: scripts.not_enough_money((price - wallet).toLocaleString(interaction.locale), wallet.toLocaleString(interaction.locale)),
                             color: colors.error
                         }],
-                        ephemeral: true
+                        flags: ["Ephemeral"]
                     });
                 }
 
@@ -119,7 +119,7 @@ export default class PetPet extends SubCommand {
                             title: scripts.expanded(amount),
                             color: colors.accent
                         }],
-                        ephemeral: true
+                        flags: ["Ephemeral"]
                     });
                 }).catch(reject);
             }).catch(reject);

@@ -50,7 +50,7 @@ export default class PetPet extends SubCommand {
                         embeds: [{
                             title: scripts.no_land,
                             color: colors.error
-                        }], ephemeral: true
+                        }], flags: ["Ephemeral"]
                     });
                 }
 
@@ -97,7 +97,7 @@ export default class PetPet extends SubCommand {
                             title: scripts.no_harvest,
                             description: cropText,
                             color: colors.error
-                        }], ephemeral: true
+                        }], flags: ["Ephemeral"]
                     });
                 }
 
@@ -113,7 +113,7 @@ export default class PetPet extends SubCommand {
                             }).join("\n")}\n${cropText}`,
                             color: colors.accent
                         }],
-                        ephemeral: true
+                        flags: ["Ephemeral"]
                     });
                 }).catch(reject);
             }).catch(reject);

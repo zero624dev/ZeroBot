@@ -92,7 +92,7 @@ export default class extends SubCommand {
                         title: scripts.no_item,
                         color: colors.error
                     }],
-                    ephemeral: true
+                    flags: ["Ephemeral"]
                 });
             }
 
@@ -104,7 +104,7 @@ export default class extends SubCommand {
                         title: scripts.cannot_buy,
                         color: colors.error
                     }],
-                    ephemeral: true
+                    flags: ["Ephemeral"]
                 });
             }
 
@@ -120,7 +120,7 @@ export default class extends SubCommand {
                             title: scripts.not_enough_money((price - wallet).toLocaleString(interaction.locale)),
                             color: colors.error
                         }],
-                        ephemeral: true
+                        flags: ["Ephemeral"]
                     });
                 }
 
@@ -131,7 +131,7 @@ export default class extends SubCommand {
                                 description: scripts.bought(item.getName(interaction.locale), amount.toLocaleString(interaction.locale), price.toLocaleString(interaction.locale)),
                                 color: colors.accent
                             }],
-                            ephemeral: true
+                            flags: ["Ephemeral"]
                         });
                     }).catch(reject);
                 }).catch(reject);

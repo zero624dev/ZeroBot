@@ -48,7 +48,7 @@ export default class extends SubCommand {
         return new Promise<InteractionReplyOptions>((resolve, reject) => {
             resolve({
                 content: "soon:tm:",
-                ephemeral: true
+                flags: ["Ephemeral"]
             })
         });
     }

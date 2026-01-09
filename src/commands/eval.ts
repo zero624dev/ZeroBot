@@ -28,16 +28,7 @@ export default class Eval extends Command {
                     description: "Whether to not send the output to the channel.",
                     type: ApplicationCommandOptionType.Boolean,
                     required: false
-                },
-                // {
-                //     name: "process",
-                //     description: "The process to run the code in.",
-                //     type: ApplicationCommandOptionType.String,
-                //     choices: [
-                //         { name: "Music", value: "music" }
-                //     ],
-                //     required: false
-                // }
+                }
             ]
         }, {
             guilds: [SUPPORT_GUILD_ID],
@@ -47,11 +38,12 @@ export default class Eval extends Command {
 
     async chatInput(interaction: ChatInputCommandInteraction): Promise<InteractionReplyOptions> {
         if (interaction.options.getString("process")) {
-            return { content: "Unsupported process option", ephemeral: true };
+            return { content: "Unsupported process option", flags: ["Ephemeral"] };
         }
         const code = interaction.options.getString("code", true);
         const silent: boolean = interaction.options.getBoolean("silent", false) ?? true;
-        await interaction.deferReply({ ephemeral: silent });
+        
+        await interaction.deferReply({ flags: silent ? ["Ephemeral"] : [] });
         const startTime = performance.now();
         try {
             // Unsafe eval remains; consider sandboxing for production
@@ -69,7 +61,7 @@ export default class Eval extends Command {
                         color: colors.accent
                     }
                 ],
-                ephemeral: silent
+                flags: silent ? ["Ephemeral"] : []
             };
         } catch (err) {
             const errorStr = err instanceof Error ? (err.stack ?? err.message) : String(err);
@@ -85,7 +77,7 @@ export default class Eval extends Command {
                         color: colors.error
                     }
                 ],
-                ephemeral: silent
+                flags: silent ? ["Ephemeral"] : []
             };
         }
     }

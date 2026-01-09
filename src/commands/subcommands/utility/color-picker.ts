@@ -88,7 +88,7 @@ export default class ColorPicker extends SubCommand {
                             title: scripts.option_required,
                             color: colors.error
                         }
-                    ], ephemeral: true
+                    ], flags: ["Ephemeral"]
                 });
             }
 
@@ -105,7 +105,7 @@ export default class ColorPicker extends SubCommand {
                                     title: scripts.image_is_too_big,
                                     color: colors.error
                                 }
-                            ], ephemeral: true
+                            ], flags: ["Ephemeral"]
                         });
                     }
 
@@ -120,7 +120,7 @@ export default class ColorPicker extends SubCommand {
                                     title: scripts.unsupported_image,
                                     color: colors.error
                                 }
-                            ], ephemeral: true
+                            ], flags: ["Ephemeral"]
                         });
                     });
 

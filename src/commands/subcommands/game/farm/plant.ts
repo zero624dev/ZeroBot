@@ -95,7 +95,7 @@ export default class PetPet extends SubCommand {
                         title: scripts.not_have_any_seeds,
                         color: colors.error
                     }],
-                    ephemeral: true
+                    flags: ["Ephemeral"]
                 });
             }
 
@@ -105,7 +105,7 @@ export default class PetPet extends SubCommand {
                         title: scripts.not_seed,
                         color: colors.error
                     }],
-                    ephemeral: true
+                    flags: ["Ephemeral"]
                 });
             }
 
@@ -116,7 +116,7 @@ export default class PetPet extends SubCommand {
                             title: scripts.not_have_seeds(item.getName(interaction.locale)),
                             color: colors.error
                         }],
-                        ephemeral: true
+                        flags: ["Ephemeral"]
                     });
                 }
 
@@ -146,7 +146,7 @@ export default class PetPet extends SubCommand {
                             embeds: [{
                                 description: scripts.planted_n_crops(item.getName(interaction.locale), plantedCount),
                                 color: colors.accent
-                            }], ephemeral: true
+                            }], flags: ["Ephemeral"]
                         });
                     }).catch(reject);
                 });

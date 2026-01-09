@@ -92,7 +92,7 @@ export default class extends SubCommand {
                     embeds: [{
                         title: scripts.no_item,
                         color: colors.error
-                    }], ephemeral: true
+                    }], flags: ["Ephemeral"]
                 });
             }
 
@@ -103,7 +103,7 @@ export default class extends SubCommand {
                     embeds: [{
                         title: scripts.cannot_sell,
                         color: colors.error
-                    }], ephemeral: true
+                    }], flags: ["Ephemeral"]
                 });
             }
 
@@ -115,14 +115,14 @@ export default class extends SubCommand {
                         embeds: [{
                             title: scripts.not_have_item,
                             color: colors.error
-                        }], ephemeral: true
+                        }], flags: ["Ephemeral"]
                     });
                 }
 
                 const price = subtractAmount * sell;
 
                 addUserWallet(interaction.user.id, price).then(() => {
-                    resolve({ content: scripts.sold(item.getName(interaction.locale), subtractAmount.toLocaleString(interaction.locale), price.toLocaleString(interaction.locale)), ephemeral: true });
+                    resolve({ content: scripts.sold(item.getName(interaction.locale), subtractAmount.toLocaleString(interaction.locale), price.toLocaleString(interaction.locale)), flags: ["Ephemeral"] });
                 }).catch(reject);
             }).catch(reject);
         });

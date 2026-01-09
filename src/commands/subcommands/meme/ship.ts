@@ -107,7 +107,7 @@ export default class Ship extends SubCommand {
                             title: scripts.same_input,
                             color: colors.error
                         }
-                    ], ephemeral: true
+                    ], flags: ["Ephemeral"]
                 });
             } else {
                 const percentage = (parseInt(crypto.createHash('md5').update(ship1).digest('hex'), 16) +
