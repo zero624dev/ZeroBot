@@ -64,28 +64,28 @@
 <line style="stroke: rgb(255,255,255); stroke-width: 1;"  x1="429" y1="33" x2="429" y2="39" />
 <line style="stroke: rgb(255,255,255); stroke-width: 1;"  x1="448" y1="33" x2="448" y2="39" />
 
-<text x="9" y="449" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">0</text>
-<text x="3" y="389" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">10</text>
-<text x="3" y="329" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">20</text>
-<text x="3" y="269" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">30</text>
-<text x="3" y="209" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">40</text>
-<text x="3" y="149" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">50</text>
-<text x="3" y="89" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">60</text>
+<text x="9" y="449" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">0</text>
+<text x="3" y="389" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">10</text>
+<text x="3" y="329" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">20</text>
+<text x="3" y="269" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">30</text>
+<text x="3" y="209" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">40</text>
+<text x="3" y="149" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">50</text>
+<text x="3" y="89" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">60</text>
 
-<text x="33" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">0</text>
-<text x="70" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">2</text>
-<text x="106" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">4</text>
-<text x="140" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">6</text>
-<text x="177" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">8</text>
-<text x="207" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">10</text>
-<text x="244" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">12</text>
-<text x="280" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">14</text>
-<text x="316" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">16</text>
-<text x="352" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">18</text>
-<text x="388" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">20</text>
-<text x="424" y="467" style="font-family: 'Open Sans', sans-serif; font-size: 18px; fill: rgb(255,255,255);">22</text>
+<text x="33" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">0</text>
+<text x="70" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">2</text>
+<text x="106" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">4</text>
+<text x="140" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">6</text>
+<text x="177" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">8</text>
+<text x="207" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">10</text>
+<text x="244" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">12</text>
+<text x="280" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">14</text>
+<text x="316" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">16</text>
+<text x="352" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">18</text>
+<text x="388" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">20</text>
+<text x="424" y="467" style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; fill: rgb(255,255,255);">22</text>
 
-<text x="2" y="66" style="font-family: 'Open Sans', sans-serif; font-size: 16px; fill: rgb(255,255,255);">m</text>
-<text x="455" y="470" style="font-family: 'Open Sans', sans-serif; font-size: 16px; fill: rgb(255,255,255);">h</text>
+<text x="2" y="66" style="font-family: 'Bebas Neue', sans-serif; font-size: 16px; fill: rgb(255,255,255);">m</text>
+<text x="455" y="470" style="font-family: 'Bebas Neue', sans-serif; font-size: 16px; fill: rgb(255,255,255);">H</text>
 </g>
 </svg>

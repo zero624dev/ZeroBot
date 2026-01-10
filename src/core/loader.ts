@@ -9,6 +9,8 @@ import { sendLog } from "./logger";
 import util from "util";
 import { commands, items } from "./cache";
 
+process.env["FONTCONFIG_PATH"] = path.join(import.meta.dir, "../media/fonts");
+
 export function loadEvents(client: Client) {
   const eventDir = path.join(import.meta.dir, "../events");
 
