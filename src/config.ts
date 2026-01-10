@@ -1,6 +1,10 @@
-export const MONGODB_URI = `mongodb://${encodeURIComponent(process.env["MONGO_USER"] || "")}:${
-  encodeURIComponent(process.env["MONGO_PASS"] || "")}@${process.env["MONGO_HOST"]}:${
-  process.env["MONGO_PORT"]}/${process.env["MONGO_NAME"]}?${process.env["MONGO_OPTIONS"] || ""}`;
+const MONGO_USER = encodeURIComponent(process.env["MONGO_USER"] || "");
+const MONGO_PASS = encodeURIComponent(process.env["MONGO_PASS"] || "");
+export const MONGODB_URI = (MONGO_USER && MONGO_PASS)
+  ? `mongodb://${MONGO_USER}:${MONGO_PASS}@${process.env["MONGO_HOST"]}:${
+    process.env["MONGO_PORT"]}/${process.env["MONGO_NAME"]}?${process.env["MONGO_OPTIONS"] || ""}`
+  : `mongodb://${process.env["MONGO_HOST"]}:${
+    process.env["MONGO_PORT"]}/${process.env["MONGO_NAME"]}?${process.env["MONGO_OPTIONS"] || ""}`;
 
 export const PREFIX = process.env["PREFIX"] || "0";
 export const LOGGING_CHANNEL_ID = process.env["LOGGING_CHANNEL_ID"] || "1146865229955874967";
