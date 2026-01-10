@@ -2,19 +2,14 @@ import {
   Collection,
   ChatInputCommandInteraction,
   ApplicationCommandOptionType,
-  type Locale,
 } from "discord.js";
 import { SubCommand, type Command } from "../../../core/types";
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
 
-export interface IScripts {
-}
-
 export default class BlueArchiveLogo extends SubCommand {
   sprites = new Collection<string, Buffer>();
-  scripts: Partial<Record<Locale, IScripts>> = {};
   // fontDir: string = path.join(import.meta.dir, "../../../media/fonts/BlueArchiveTitle-Bold.otf");
 
   constructor(parent: Command) {
@@ -68,41 +63,6 @@ export default class BlueArchiveLogo extends SubCommand {
           maxLength: 25,
           required: false,
         },
-        // {
-        //     type: ApplicationCommandOptionType.String,
-        //     name: "background",
-        //     description: "Set Background Style",
-        //     nameLocalizations: {
-        //         ko: "배경"
-        //     },
-        //     descriptionLocalizations: {
-        //         ko: "배경 스타일 설정"
-        //     },
-        //     choices: [
-        //         {
-        //             name: "Transparent",
-        //             nameLocalizations: {
-        //                 ko: "투명"
-        //             },
-        //             value: "transparent"
-        //         },
-        //         {
-        //             name: "White Background",
-        //             nameLocalizations: {
-        //                 ko: "하얀 배경"
-        //             },
-        //             value: "white"
-        //         },
-        //         {
-        //             name: "White Outline",
-        //             nameLocalizations: {
-        //                 ko: "하얀 테두리"
-        //             },
-        //             value: "outline"
-        //         }
-        //     ],
-        //     required: false
-        // }
       ],
     }, {
 
