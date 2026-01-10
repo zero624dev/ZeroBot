@@ -72,7 +72,7 @@ export default class Timeline extends Command {
       registrationRequired: true,
     });
 
-    this.coverImage = fs.readFileSync(path.join(import.meta.dir, "../media/images/image.svg"));
+    this.coverImage = fs.readFileSync(path.join(import.meta.dir, "../media/images/timeline_table.png"));
     this.maskImage = Buffer.from("<svg><rect x=\"0\" y=\"0\" width=\"456\" height=\"25\" rx=\"5\" ry=\"5\"/></svg>");
   }
 

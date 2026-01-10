@@ -2,25 +2,23 @@ import fs from "fs";
 import path from "path";
 import { colors } from "../config";
 import { StringUtils } from "./utils/utils";
-import { Collection, type Client, type ApplicationCommandData } from "discord.js";
+import { Collection, type Client, type ApplicationCommandData, type ClientEvents } from "discord.js";
 import type { Item } from "../addons/item/item";
 import type { ClientEvent, Command, SubCommand } from "./types";
 import { sendLog } from "./logger";
 import util from "util";
 import { commands, items } from "./cache";
 
-process.env["FONTCONFIG_PATH"] = path.join(import.meta.dir, "../media/fonts");
-
 export function loadEvents(client: Client) {
   const eventDir = path.join(import.meta.dir, "../events");
 
   fs.readdirSync(eventDir).forEach(async (evt) => {
     const E = await import(`${eventDir}/${evt}`);
-    const event = new E.default(client) as ClientEvent<keyof import("discord.js").ClientEvents>;
-    const eventName = evt.slice(0, -3);
+    const event = new E.default(client) as ClientEvent<keyof ClientEvents>;
+    const eventName = evt.slice(0, -3) as keyof ClientEvents;
 
     client[event.func](eventName, (...args) => {
-      return event.run(...args as any).catch((err: any) => {
+      return event.run(...args).catch((err) => {
         if (err.handled) {
           console.error(err.handled, err.error);
           sendLog(client, {
@@ -56,9 +54,9 @@ export function loadCommands(client: Client) {
 
   fs.readdirSync(commandDir).filter((f) => {
     return f.endsWith(".ts");
-  }).forEach((cmd) => {
+  }).forEach(async (cmd) => {
     try {
-      const command: Command = new (require(`${commandDir}/${cmd}`).default)(client);
+      const command: Command = new (await import(`${commandDir}/${cmd}`)).default(client);
       commands.set(command.data.name, command);
       if (command.data.type)
         if (command.options.guilds?.length) {
@@ -84,13 +82,13 @@ export function loadCommands(client: Client) {
   });
 
   fs.readdirSync(subcommandDir).forEach((commandName) => {
-    fs.readdirSync(`${subcommandDir}/${commandName}`, { withFileTypes: true }).forEach((subcmd) => {
+    fs.readdirSync(`${subcommandDir}/${commandName}`, { withFileTypes: true }).forEach(async (subcmd) => {
       if (subcmd.isDirectory()) {
-        fs.readdirSync(`${subcommandDir}/${commandName}/${subcmd.name}`).forEach((file) => {
+        fs.readdirSync(`${subcommandDir}/${commandName}/${subcmd.name}`).forEach(async (file) => {
           try {
             const subcommandName = file.slice(0, -3);
             const command = commands.get(commandName);
-            const subcommand: SubCommand = new (require(`${subcommandDir}/${commandName}/${subcmd.name}/${file}`).default)(command);
+            const subcommand: SubCommand = new (await import(`${subcommandDir}/${commandName}/${subcmd.name}/${file}`)).default(command);
 
             if (!(command?.subcommands instanceof Collection)) {
               throw new Error(`${commandName}: Command do not have subcommands as properties.`);
@@ -114,7 +112,7 @@ export function loadCommands(client: Client) {
         try {
           const subcommandName = subcmd.name.slice(0, -3);
           const command = commands.get(commandName);
-          const subcommand: SubCommand = new (require(`${subcommandDir}/${commandName}/${subcmd.name}`).default)(command);
+          const subcommand: SubCommand = new (await import(`${subcommandDir}/${commandName}/${subcmd.name}`)).default(command);
 
           if (!(command?.subcommands instanceof Collection)) {
             throw new Error(`${commandName}: Command do not have subcommands as properties.`);
