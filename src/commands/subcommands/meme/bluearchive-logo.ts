@@ -2,7 +2,6 @@ import {
   Collection,
   ChatInputCommandInteraction,
   ApplicationCommandOptionType,
-  type InteractionReplyOptions,
   type Locale,
 } from "discord.js";
 import { SubCommand, type Command } from "../../../core/types";
@@ -117,120 +116,114 @@ export default class BlueArchiveLogo extends SubCommand {
     });
   }
 
-  chatInput(interaction: ChatInputCommandInteraction) {
-    return new Promise<InteractionReplyOptions>(async (resolve, reject) => {
-      const blue = interaction.options.getString("blue", true);
-      const archive = interaction.options.getString("archive", true);
-      const subtitle = interaction.options.getString("subtitle");
+  async chatInput(interaction: ChatInputCommandInteraction) {
+    const blue = interaction.options.getString("blue", true);
+    const archive = interaction.options.getString("archive", true);
+    const subtitle = interaction.options.getString("subtitle");
 
-      try {
-        const bluearchive = await sharp({
-          text: {
-            text: `<span foreground="#128AFA">${blue}</span><span foreground="#2B2B2B">${archive}</span>`,
-            rgba: true,
-            dpi: 1000,
-            font: "BlueArchiveTitle",
-            // fontfile: this.fontDir,
-          },
-        }).affine([1, -0.4, 0, 1], { background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer({ resolveWithObject: true });
+    const bluearchive = await sharp({
+      text: {
+        text: `<span foreground="#128AFA">${blue}</span><span foreground="#2B2B2B">${archive}</span>`,
+        rgba: true,
+        dpi: 1000,
+        font: "BlueArchiveTitle",
+        // fontfile: this.fontDir,
+      },
+    }).affine([1, -0.4, 0, 1], { background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer({ resolveWithObject: true });
 
-        const blueWidth = await sharp({
-          text: {
-            text: blue,
-            rgba: true,
-            dpi: 1000,
-            font: "BlueArchiveTitle",
-            // fontfile: this.fontDir,
-          },
-        }).toBuffer({ resolveWithObject: true }).then(({ info }) => info.width!);
-        const archiveWidth = bluearchive.info.width! - blueWidth;
-        const margin = Math.round((
-          (blueWidth + 25 > 250 ? 25 : 250 - blueWidth)
-          + (archiveWidth + 25 > 250 ? 25 : 250 - archiveWidth)
-        ) / 2);
-        const haloOffset = blueWidth + margin;
-        const logoWidth = bluearchive.info.width! + 2 * margin;
-        const haloLeft = logoWidth > 500 ? Math.max(0, haloOffset - 145) : 0;
+    const blueWidth = await sharp({
+      text: {
+        text: blue,
+        rgba: true,
+        dpi: 1000,
+        font: "BlueArchiveTitle",
+        // fontfile: this.fontDir,
+      },
+    }).toBuffer({ resolveWithObject: true }).then(({ info }) => info.width);
+    const archiveWidth = bluearchive.info.width - blueWidth;
+    const margin = Math.round((
+      (blueWidth + 25 > 250 ? 25 : 250 - blueWidth)
+      + (archiveWidth + 25 > 250 ? 25 : 250 - archiveWidth)
+    ) / 2);
+    const haloOffset = blueWidth + margin;
+    const logoWidth = bluearchive.info.width + 2 * margin;
+    const haloLeft = logoWidth > 500 ? Math.max(0, haloOffset - 145) : 0;
 
-        const logoMask = await sharp(
-          await sharp(bluearchive.data).extractChannel("alpha").blur(2).negate().toBuffer(),
-        ).blur(5).unflatten().png().toBuffer();
+    const logoMask = await sharp(
+      await sharp(bluearchive.data).extractChannel("alpha").blur(2).negate().toBuffer(),
+    ).blur(5).unflatten().png().toBuffer();
 
-        const logoComposites: sharp.OverlayOptions[] = [
-          {
-            input: this.sprites.get("halo")!,
-            top: 0,
-            left: haloLeft,
-          },
-          {
-            input: logoMask,
-            left: margin,
-            top: 350 - bluearchive.info.height!,
-            blend: "dest-out",
-          },
-          {
-            input: bluearchive.data,
-            left: margin,
-            top: 350 - bluearchive.info.height!,
-          },
-          {
-            input: this.sprites.get("cross-mask")!,
-            top: 0,
-            left: haloLeft,
-            blend: "dest-out",
-          },
-          {
-            input: this.sprites.get("cross")!,
-            top: 0,
-            left: haloLeft,
-          },
-        ];
+    const logoComposites: sharp.OverlayOptions[] = [
+      {
+        input: this.sprites.get("halo"),
+        top: 0,
+        left: haloLeft,
+      },
+      {
+        input: logoMask,
+        left: margin,
+        top: 350 - bluearchive.info.height,
+        blend: "dest-out",
+      },
+      {
+        input: bluearchive.data,
+        left: margin,
+        top: 350 - bluearchive.info.height,
+      },
+      {
+        input: this.sprites.get("cross-mask"),
+        top: 0,
+        left: haloLeft,
+        blend: "dest-out",
+      },
+      {
+        input: this.sprites.get("cross"),
+        top: 0,
+        left: haloLeft,
+      },
+    ];
 
-        if (subtitle) {
-          const underText = sharp({
-            text: {
-              text: `<span foreground="#2B2B2B">${subtitle}</span>`,
-              rgba: true,
-              dpi: 450,
-              font: "BlueArchiveTitle",
-              fontfile: "/home/ubuntu/workspace/ZeroBotNext/src/media/fonts/BlueArchiveTitle-Bold.otf",
-            },
-          }).affine([1, -0.4, 0, 1], { background: { r: 0, g: 0, b: 0, alpha: 0 } });
+    if (subtitle) {
+      const underText = sharp({
+        text: {
+          text: `<span foreground="#2B2B2B">${subtitle}</span>`,
+          rgba: true,
+          dpi: 450,
+          font: "BlueArchiveTitle",
+          fontfile: "/home/ubuntu/workspace/ZeroBotNext/src/media/fonts/BlueArchiveTitle-Bold.otf",
+        },
+      }).affine([1, -0.4, 0, 1], { background: { r: 0, g: 0, b: 0, alpha: 0 } });
 
-          let underTextWidth = await underText.metadata().then((md) => md.width);
+      let underTextWidth = await underText.metadata().then((md) => md.width);
 
-          const maxWidth = logoWidth > 500 ? logoWidth - haloOffset - 150 : archiveWidth;
-          if (underTextWidth > maxWidth) {
-            underText.resize(maxWidth);
-            underTextWidth = maxWidth;
-          }
-          logoComposites.push({
-            input: await underText.png().toBuffer(),
-            top: 375,
-            left: logoWidth > 500 ? haloOffset + 50 + (maxWidth - underTextWidth) : 160 + (maxWidth - underTextWidth),
-          });
-        }
-
-        const logo = sharp({
-          create: {
-            width: logoWidth,
-            height: 500,
-            channels: 4,
-            background: { r: 0, g: 0, b: 0, alpha: 0 },
-          },
-        }).composite(logoComposites);
-
-        resolve({
-          files: [
-            {
-              attachment: logo.png(),
-              name: "logo.png",
-            },
-          ],
-        });
-      } catch (e) {
-        reject(e);
+      const maxWidth = logoWidth > 500 ? logoWidth - haloOffset - 150 : archiveWidth;
+      if (underTextWidth > maxWidth) {
+        underText.resize(maxWidth);
+        underTextWidth = maxWidth;
       }
-    });
+      logoComposites.push({
+        input: await underText.png().toBuffer(),
+        top: 375,
+        left: logoWidth > 500 ? haloOffset + 50 + (maxWidth - underTextWidth) : 160 + (maxWidth - underTextWidth),
+      });
+    }
+
+    const logo = sharp({
+      create: {
+        width: logoWidth,
+        height: 500,
+        channels: 4,
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      },
+    }).composite(logoComposites);
+
+    return {
+      files: [
+        {
+          attachment: logo.png(),
+          name: "logo.png",
+        },
+      ],
+    };
   }
 }
