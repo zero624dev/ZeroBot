@@ -54,9 +54,9 @@ export function loadCommands(client: Client) {
 
   fs.readdirSync(commandDir).filter((f) => {
     return f.endsWith(".ts");
-  }).forEach(async (cmd) => {
+  }).forEach((cmd) => {
     try {
-      const command: Command = new (await import(`${commandDir}/${cmd}`)).default(client);
+      const command: Command = new (require(`${commandDir}/${cmd}`).default)(client);
       commands.set(command.data.name, command);
       if (command.data.type)
         if (command.options.guilds?.length) {
@@ -82,13 +82,13 @@ export function loadCommands(client: Client) {
   });
 
   fs.readdirSync(subcommandDir).forEach((commandName) => {
-    fs.readdirSync(`${subcommandDir}/${commandName}`, { withFileTypes: true }).forEach(async (subcmd) => {
+    fs.readdirSync(`${subcommandDir}/${commandName}`, { withFileTypes: true }).forEach((subcmd) => {
       if (subcmd.isDirectory()) {
-        fs.readdirSync(`${subcommandDir}/${commandName}/${subcmd.name}`).forEach(async (file) => {
+        fs.readdirSync(`${subcommandDir}/${commandName}/${subcmd.name}`).forEach((file) => {
           try {
             const subcommandName = file.slice(0, -3);
             const command = commands.get(commandName);
-            const subcommand: SubCommand = new (await import(`${subcommandDir}/${commandName}/${subcmd.name}/${file}`)).default(command);
+            const subcommand: SubCommand = new (require(`${subcommandDir}/${commandName}/${subcmd.name}/${file}`).default)(command);
 
             if (!(command?.subcommands instanceof Collection)) {
               throw new Error(`${commandName}: Command do not have subcommands as properties.`);
@@ -112,7 +112,7 @@ export function loadCommands(client: Client) {
         try {
           const subcommandName = subcmd.name.slice(0, -3);
           const command = commands.get(commandName);
-          const subcommand: SubCommand = new (await import(`${subcommandDir}/${commandName}/${subcmd.name}`)).default(command);
+          const subcommand: SubCommand = new (require(`${subcommandDir}/${commandName}/${subcmd.name}`).default)(command);
 
           if (!(command?.subcommands instanceof Collection)) {
             throw new Error(`${commandName}: Command do not have subcommands as properties.`);
