@@ -1,39 +1,39 @@
 import {
-    type InteractionReplyOptions,
-    ApplicationCommandOptionType,
-    ChatInputCommandInteraction,
-    ApplicationCommandType,
-    type Client,
+  type InteractionReplyOptions,
+  ApplicationCommandOptionType,
+  ChatInputCommandInteraction,
+  ApplicationCommandType,
+  type Client,
 } from "discord.js";
 import { Command } from "../core/types";
 
 export default class Eval extends Command {
-    constructor(client: Client) {
-        super(client, {
-            name: "test",
-            description: "test command.",
-            type: ApplicationCommandType.ChatInput,
-            options: [
-                {
-                    type: ApplicationCommandOptionType.User,
-                    name: "user",
-                    description: "test",
-                    required: false,
-                }
-            ]
-        }, {
-            guilds: ["678566031874064394"],
-            whitelist: ["532239959281893397"]
-        });
-    }
+  constructor(client: Client) {
+    super(client, {
+      name: "test",
+      description: "test command.",
+      type: ApplicationCommandType.ChatInput,
+      options: [
+        {
+          type: ApplicationCommandOptionType.User,
+          name: "user",
+          description: "test",
+          required: false,
+        },
+      ],
+    }, {
+      guilds: ["678566031874064394"],
+      whitelist: ["532239959281893397"],
+    });
+  }
 
-    chatInput(interaction: ChatInputCommandInteraction<"cached">) {
-        return new Promise<InteractionReplyOptions>((resolve, reject) => {
-            resolve({
-                content: "Test command works!"
-            })
-        });
-    }
+  chatInput(interaction: ChatInputCommandInteraction<"cached">) {
+    return new Promise<InteractionReplyOptions>((resolve, reject) => {
+      resolve({
+        content: "Test command works!",
+      });
+    });
+  }
 }
 
 // const voiceChannel = interaction.member.voice.channel as any;

@@ -3,23 +3,23 @@ import mongoose, { Schema, Document } from "mongoose";
 const FarmSlot = new mongoose.Schema(
   {
     crop: { type: mongoose.Schema.Types.String, required: false },
-    plantedAt: { type: mongoose.Schema.Types.Number, required: true }
+    plantedAt: { type: mongoose.Schema.Types.Number, required: true },
   },
   {
     _id: false,
-    timestamps: false
-  }
+    timestamps: false,
+  },
 );
 
 const InventorySlot = new Schema(
   {
     id: { type: Schema.Types.String, required: false },
-    count: { type: Schema.Types.Number, required: true }
+    count: { type: Schema.Types.Number, required: true },
   },
   {
     _id: false,
-    timestamps: false
-  }
+    timestamps: false,
+  },
 );
 
 const GameSchema = new Schema(
@@ -33,8 +33,8 @@ const GameSchema = new Schema(
   },
   {
     _id: false,
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
 export interface IGame extends Document {
@@ -55,4 +55,4 @@ export interface IGame extends Document {
   lastVote?: number;
 }
 
-export const GameModel = mongoose.model<IGame>('Game', GameSchema);
+export const GameModel = mongoose.model<IGame>("Game", GameSchema);

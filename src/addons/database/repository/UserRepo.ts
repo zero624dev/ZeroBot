@@ -12,8 +12,8 @@ export function existsUser(userId: string): Promise<boolean> {
 export function setUserSchedule(userId: string, schedules: NonNullable<IUser["d_day"]>["schedules"]) {
   return UserModel.findOneAndUpdate({ _id: userId }, {
     d_day: {
-      schedules: schedules
-    }
+      schedules: schedules,
+    },
   }, { new: true });
 }
 
@@ -39,11 +39,11 @@ export function getUser(userId: string, data?: keyof IUser | (keyof IUser)[]) {
 
       UserModel.aggregate([
         {
-          $match: { _id: userId }
+          $match: { _id: userId },
         },
         {
-          $project: project
-        }
+          $project: project,
+        },
       ]).then(([res]) => {
         if (Array.isArray(data)) {
           resolve(res);

@@ -26,6 +26,7 @@
     "youtube-sr": "4.3.11"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^5.7.0",
     "@types/bun": "latest",
     "@types/node": "latest",
     "@types/sharp": "latest",

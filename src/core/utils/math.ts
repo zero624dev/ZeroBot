@@ -1,4 +1,3 @@
-
 /**
    * Returns a random number between min and max (inclusive)
    * @example
@@ -10,7 +9,7 @@
    * => // 3.845013878893512
    * ```
    */
-export function randomRange(min: number, max: number, allValues: boolean = false) {
+export function randomRange(min: number, max: number, allValues = false) {
   const randomValue = Math.random() * (max - min + 1) + min;
   return allValues ? randomValue : Math.floor(randomValue);
 }
@@ -138,11 +137,11 @@ export function isOdd(n: number) {
  * ```ts
  * clamp(11, 1, 10);
  * => // 10
- * 
+ *
  * clamp(5, 1, 10);
  * => // 5
  * ```
  */
 export function clamp(num: number, min: number, max: number): number {
-  return Math.min(Math.max(num, min), max)
+  return Math.min(Math.max(num, min), max);
 }

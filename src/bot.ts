@@ -6,7 +6,7 @@ import { DISCORD_TOKEN } from "./config";
 
 const client = new Client({
   intents: [
-    "Guilds", "GuildMessages", "MessageContent"
+    "Guilds", "GuildMessages", "MessageContent",
   ],
   presence: {
     afk: true,
@@ -15,9 +15,9 @@ const client = new Client({
       {
         name: "Loading...",
         type: ActivityType.Playing,
-        url: "https://discord.gg/3w4aKhpUVy"
-      }
-    ]
+        url: "https://discord.gg/3w4aKhpUVy",
+      },
+    ],
   },
   sweepers: {
     ...Options.DefaultSweeperSettings,
@@ -37,4 +37,4 @@ process.on("uncaughtException", (err) => {
   console.error(err.stack);
 });
 
-export { client }
+export { client };

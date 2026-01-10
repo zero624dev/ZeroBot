@@ -4,7 +4,7 @@
  * @returns 인코딩된 유니코드 문자열
  * @example
  * ```ts
- * encodeDecimalToUnicode(1234567890) 
+ * encodeDecimalToUnicode(1234567890)
  * => // "\u{41234}\u{45678}\u{20090}"
  * ```
  */
@@ -24,7 +24,7 @@ export function encodeDecimalToUnicode(decimal: number | bigint): string {
  * @returns 디코딩된 숫자
  * @example
  * ```ts
- * decodeUnicodeToDecimal("\u{41234}\u{45678}\u{20090}") 
+ * decodeUnicodeToDecimal("\u{41234}\u{45678}\u{20090}")
  * => // 1234567890n
  * ```
  */
@@ -33,7 +33,7 @@ export function decodeUnicodeToDecimal(encoded: string): bigint {
   for (const char of encoded) {
     const code = char.codePointAt(0)!;
     const digitCount = ~~(code / 10000);
-    const chunk = String(code - digitCount * 10000).padStart(digitCount, '0');
+    const chunk = String(code - digitCount * 10000).padStart(digitCount, "0");
     result += chunk;
   }
   return BigInt(result);
@@ -45,7 +45,7 @@ export function decodeUnicodeToDecimal(encoded: string): bigint {
  * @returns 디코딩된 숫자 문자열
  * @example
  * ```ts
- * decodeUnicodeToDecimalButString("\u{41234}\u{45678}\u{20090}") 
+ * decodeUnicodeToDecimalButString("\u{41234}\u{45678}\u{20090}")
  * => // "1234567890"
  * ```
  */
@@ -54,7 +54,7 @@ export function decodeUnicodeToDecimalButString(encoded: string): string {
   for (const char of encoded) {
     const code = char.codePointAt(0)!;
     const digitCount = ~~(code / 10000);
-    const chunk = String(code - digitCount * 10000).padStart(digitCount, '0');
+    const chunk = String(code - digitCount * 10000).padStart(digitCount, "0");
     result += chunk;
   }
   return result;

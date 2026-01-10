@@ -1,14 +1,14 @@
 import {
-    AutocompleteInteraction,
-    ChatInputCommandInteraction,
-    ComponentType,
-    ApplicationCommandOptionType,
-    LimitedCollection,
-    type ApplicationCommandOptionChoiceData,
-    type InteractionReplyOptions,
-    type Locale,
-    type StringSelectMenuInteraction,
-    type InteractionUpdateOptions
+  AutocompleteInteraction,
+  ChatInputCommandInteraction,
+  ComponentType,
+  ApplicationCommandOptionType,
+  LimitedCollection,
+  type ApplicationCommandOptionChoiceData,
+  type InteractionReplyOptions,
+  type Locale,
+  type StringSelectMenuInteraction,
+  type InteractionUpdateOptions,
 } from "discord.js";
 import { SubCommand, type Command } from "../../../../core/types";
 import { StringUtils } from "../../../../core/utils/utils";
@@ -16,195 +16,195 @@ import { searchWithPages } from "google-sr";
 import { colors } from "../../../../config";
 
 export interface IScripts {
-    google_search_for_query: (query: string) => string;
-    no_result: string;
+  google_search_for_query: (query: string) => string;
+  no_result: string;
 }
 
 export default class extends SubCommand {
-    scripts: { [key in Locale]?: IScripts } = {
-        "ko": {
-            google_search_for_query: (query: string) => `구글 "${query}" 검색 결과`,
-            no_result: "결과가 없습니다"
+  scripts: Partial<Record<Locale, IScripts>> = {
+    "ko": {
+      google_search_for_query: (query: string) => `구글 "${query}" 검색 결과`,
+      no_result: "결과가 없습니다",
+    },
+    "en-US": {
+      google_search_for_query: (query: string) => `Google Search for "${query}"`,
+      no_result: "There's no result",
+    },
+  };
+
+  history = new LimitedCollection<string, any>({ maxSize: 100 });
+
+  constructor(parent: Command) {
+    super(parent, {
+      type: ApplicationCommandOptionType.Subcommand,
+      name: "google",
+      description: "Google something.",
+      nameLocalizations: {
+        ko: "구글",
+      },
+      descriptionLocalizations: {
+        ko: "검색어를 구글에 검색해요.",
+      },
+      options: [{
+        type: ApplicationCommandOptionType.String,
+        name: "query",
+        description: "Search query.",
+        nameLocalizations: {
+          ko: "검색어",
         },
-        "en-US": {
-            google_search_for_query: (query: string) => `Google Search for "${query}"`,
-            no_result: "There's no result"
+        descriptionLocalizations: {
+          ko: "검색할 내용.",
+        },
+        maxLength: 98,
+        required: true,
+        autocomplete: true,
+      }],
+    });
+  }
+
+  chatInput(interaction: ChatInputCommandInteraction) {
+    return new Promise<InteractionReplyOptions>((resolve, reject) => {
+      const scripts = this.scripts[interaction.locale] ?? this.scripts["en-US"]!;
+
+      const splits = interaction.options.getString("query", true).split("|");
+      const last = splits.pop() ?? "";
+      let index = 0;
+      if (/^\d$/.test(last)) {
+        index = parseInt(last);
+      } else {
+        splits.push(last);
+      }
+      const query = splits.join("|");
+
+      this.googleSearch(query).then((results) => {
+        if (!results.length) {
+          return resolve({
+            embeds: [
+              {
+                author: { name: scripts.google_search_for_query(query), icon_url: "https://www.stickpng.com/assets/images/5a951939c4ffc33e8c148af2.png" },
+                description: scripts.no_result,
+                footer: { text: `Provided by Google APIs • ${this.client.user?.username}` },
+                color: colors.accent,
+              },
+            ],
+          });
         }
-    };
-
-    history: LimitedCollection<string, any> = new LimitedCollection({ maxSize: 100 });
-
-    constructor(parent: Command) {
-        super(parent, {
-            type: ApplicationCommandOptionType.Subcommand,
-            name: "google",
-            description: "Google something.",
-            nameLocalizations: {
-                ko: "구글"
+        const select = results[index];
+        resolve({
+          embeds: [
+            {
+              author: { name: scripts.google_search_for_query(query), icon_url: "https://www.stickpng.com/assets/images/5a951939c4ffc33e8c148af2.png" },
+              title: StringUtils.ellipsis(select.title, 250),
+              url: select.link,
+              description: StringUtils.ellipsis(select.description, 4000),
+              footer: { text: `Provided by Google APIs • ${this.client.user?.username}` },
+              color: colors.accent,
             },
-            descriptionLocalizations: {
-                ko: "검색어를 구글에 검색해요."
+          ],
+          // components: [
+          //     {
+          //         type: ComponentType.ActionRow,
+          //         components: [
+          //             {
+          //                 type: ComponentType.StringSelect,
+          //                 customId: `${interaction.user.id}|${interaction.commandName}|${interaction.options.getSubcommandGroup()} ${interaction.options.getSubcommand()}`,
+          //                 options: results.slice(0, 25).map((item: any, i: number) => ({
+          //                     label: item.title,
+          //                     value: `${query}${i.toString().padStart(2, '0')}`,
+          //                     default: i == index
+          //                 }))
+          //             }
+          //         ]
+          //     }
+          // ]
+        });
+      }).catch(reject);
+    });
+  }
+
+  stringSelect(interaction: StringSelectMenuInteraction<"cached">) {
+    return new Promise<InteractionUpdateOptions>((resolve, reject) => {
+      const scripts = this.scripts[interaction.locale] ?? this.scripts["en-US"]!;
+
+      const query = interaction.values[0].slice(0, -2);
+      const index = parseInt(interaction.values[0].slice(-2)) || 0;
+
+      this.googleSearch(query).then((results) => {
+        if (!results.length) {
+          return resolve({
+            embeds: [
+              {
+                author: { name: scripts.google_search_for_query(query), icon_url: "https://www.stickpng.com/assets/images/5a951939c4ffc33e8c148af2.png" },
+                description: scripts.no_result,
+                footer: { text: `Provided by Google APIs • ${this.client.user?.username}` },
+                color: colors.accent,
+              },
+            ],
+          });
+        }
+        const select = results[index];
+        resolve({
+          embeds: [
+            {
+              author: { name: scripts.google_search_for_query(query), icon_url: "https://www.stickpng.com/assets/images/5a951939c4ffc33e8c148af2.png" },
+              title: select.title,
+              url: select.link,
+              description: select.description,
+              footer: { text: `Provided by Google APIs • ${this.client.user?.username}` },
+              color: colors.accent,
             },
-            options: [{
-                type: ApplicationCommandOptionType.String,
-                name: "query",
-                description: "Search query.",
-                nameLocalizations: {
-                    ko: "검색어"
+          ],
+          components: [
+            {
+              type: ComponentType.ActionRow,
+              components: [
+                {
+                  type: ComponentType.StringSelect,
+                  customId: interaction.customId,
+                  options: results.slice(0, 25).map((item: any, i: number) => ({
+                    label: item.title,
+                    value: `${query}${i.toString().padStart(2, "0")}`,
+                    default: i == index,
+                  })),
                 },
-                descriptionLocalizations: {
-                    ko: "검색할 내용."
-                },
-                maxLength: 98,
-                required: true,
-                autocomplete: true
-            }]
+              ],
+            },
+          ],
         });
-    }
+      }).catch(reject);
+    });
+  }
 
-    chatInput(interaction: ChatInputCommandInteraction) {
-        return new Promise<InteractionReplyOptions>((resolve, reject) => {
-            const scripts = this.scripts[interaction.locale] ?? this.scripts["en-US"]!;
+  autocomplete(interaction: AutocompleteInteraction<"cached">) {
+    return new Promise<ApplicationCommandOptionChoiceData[]>((resolve, reject) => {
+      const query = interaction.options.getString("query", true).slice(0, 96);
+      if (!query) return resolve([]);
+      this.googleSearch(query).then((results) => {
+        resolve(
+          results.slice(0, 10).filter((i) => i.title).map((item: any, index: number) => {
+            return {
+              name: StringUtils.ellipsis(item.title, 100),
+              value: `${query}|${index}`,
+            };
+          }),
+        );
+      }).catch(reject);
+    });
+  }
 
-            const splits = interaction.options.getString("query", true).split("|");
-            const last = splits.pop() ?? "";
-            let index = 0;
-            if (/^\d$/.test(last)) {
-                index = parseInt(last);
-            } else {
-                splits.push(last);
-            }
-            const query = splits.join("|");
+  googleSearch(query: string) {
+    return new Promise<any[]>((resolve, reject) => {
+      const cached = this.history.get(query);
+      if (cached) return resolve(cached);
 
-            this.googleSearch(query).then((results) => {
-                if (!results.length) {
-                    return resolve({
-                        embeds: [
-                            {
-                                author: { name: scripts.google_search_for_query(query), icon_url: "https://www.stickpng.com/assets/images/5a951939c4ffc33e8c148af2.png" },
-                                description: scripts.no_result,
-                                footer: { text: `Provided by Google APIs • ${this.client.user?.username}` },
-                                color: colors.accent
-                            }
-                        ]
-                    });
-                }
-                const select = results[index];
-                resolve({
-                    embeds: [
-                        {
-                            author: { name: scripts.google_search_for_query(query), icon_url: "https://www.stickpng.com/assets/images/5a951939c4ffc33e8c148af2.png" },
-                            title: StringUtils.ellipsis(select.title, 250),
-                            url: select.link,
-                            description: StringUtils.ellipsis(select.description, 4000),
-                            footer: { text: `Provided by Google APIs • ${this.client.user?.username}` },
-                            color: colors.accent
-                        }
-                    ],
-                    // components: [
-                    //     {
-                    //         type: ComponentType.ActionRow,
-                    //         components: [
-                    //             {
-                    //                 type: ComponentType.StringSelect,
-                    //                 customId: `${interaction.user.id}|${interaction.commandName}|${interaction.options.getSubcommandGroup()} ${interaction.options.getSubcommand()}`,
-                    //                 options: results.slice(0, 25).map((item: any, i: number) => ({
-                    //                     label: item.title,
-                    //                     value: `${query}${i.toString().padStart(2, '0')}`,
-                    //                     default: i == index
-                    //                 }))
-                    //             }
-                    //         ]
-                    //     }
-                    // ]
-                });
-            }).catch(reject);
-        });
-    }
-
-    stringSelect(interaction: StringSelectMenuInteraction<"cached">) {
-        return new Promise<InteractionUpdateOptions>((resolve, reject) => {
-            const scripts = this.scripts[interaction.locale] ?? this.scripts["en-US"]!;
-
-            const query = interaction.values[0].slice(0, -2);
-            const index = parseInt(interaction.values[0].slice(-2)) || 0;
-
-            this.googleSearch(query).then((results) => {
-                if (!results.length) {
-                    return resolve({
-                        embeds: [
-                            {
-                                author: { name: scripts.google_search_for_query(query), icon_url: "https://www.stickpng.com/assets/images/5a951939c4ffc33e8c148af2.png" },
-                                description: scripts.no_result,
-                                footer: { text: `Provided by Google APIs • ${this.client.user?.username}` },
-                                color: colors.accent
-                            }
-                        ]
-                    });
-                }
-                const select = results[index];
-                resolve({
-                    embeds: [
-                        {
-                            author: { name: scripts.google_search_for_query(query), icon_url: "https://www.stickpng.com/assets/images/5a951939c4ffc33e8c148af2.png" },
-                            title: select.title,
-                            url: select.link,
-                            description: select.description,
-                            footer: { text: `Provided by Google APIs • ${this.client.user?.username}` },
-                            color: colors.accent
-                        }
-                    ],
-                    components: [
-                        {
-                            type: ComponentType.ActionRow,
-                            components: [
-                                {
-                                    type: ComponentType.StringSelect,
-                                    customId: interaction.customId,
-                                    options: results.slice(0, 25).map((item: any, i: number) => ({
-                                        label: item.title,
-                                        value: `${query}${i.toString().padStart(2, '0')}`,
-                                        default: i == index
-                                    }))
-                                }
-                            ]
-                        }
-                    ]
-                });
-            }).catch(reject);
-        });
-    }
-
-    autocomplete(interaction: AutocompleteInteraction<"cached">) {
-        return new Promise<ApplicationCommandOptionChoiceData[]>((resolve, reject) => {
-            const query = interaction.options.getString("query", true).slice(0, 96);
-            if (!query) return resolve([]);
-            this.googleSearch(query).then((results) => {
-                resolve(
-                    results.slice(0, 10).filter(i => i.title).map((item: any, index: number) => {
-                        return {
-                            name: StringUtils.ellipsis(item.title, 100),
-                            value: `${query}|${index}`
-                        };
-                    })
-                )
-            }).catch(reject);
-        });
-    }
-
-    googleSearch(query: string) {
-        return new Promise<any[]>((resolve, reject) => {
-            const cached = this.history.get(query);
-            if (cached) return resolve(cached);
-
-            searchWithPages({ query, pages: 3 }).then(res => {
-                return res.reduce((acc, cur) => acc.concat(cur));
-            }).then((results) => {
-                this.history.set(query, results);
-                resolve(results);
-            }).catch(reject);
-        });
-    }
+      searchWithPages({ query, pages: 3 }).then((res) => {
+        return res.reduce((acc, cur) => acc.concat(cur));
+      }).then((results) => {
+        this.history.set(query, results);
+        resolve(results);
+      }).catch(reject);
+    });
+  }
 }
 
 // export default class extends SubCommand {

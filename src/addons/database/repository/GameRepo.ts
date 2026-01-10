@@ -1,5 +1,5 @@
-import { GameModel, type IGame } from '../models/Game';
-import type mongoose from 'mongoose';
+import { GameModel, type IGame } from "../models/Game";
+import type mongoose from "mongoose";
 
 export function getRankedUsersByWallet(limit: number, skip: number) {
   return new Promise<{
@@ -13,24 +13,24 @@ export function getRankedUsersByWallet(limit: number, skip: number) {
     GameModel.countDocuments({}).then((count) => {
       GameModel.aggregate([
         {
-          $sort: { wallet: -1 }
+          $sort: { wallet: -1 },
         },
         {
-          $limit: limit
+          $limit: limit,
         },
         {
-          $skip: skip
+          $skip: skip,
         },
         {
           $project: {
-            _id: 0, id: "$_id", wallet: 1
-          }
-        }
+            _id: 0, id: "$_id", wallet: 1,
+          },
+        },
       ]).then(async (users) => {
         // await this.setUsername(users);
         resolve({
           users: users,
-          count: count
+          count: count,
         });
       }).catch(reject);
     }).catch(reject);
@@ -41,17 +41,17 @@ export function addUserInventory(userId: string, item: string, amount: number, u
   return new Promise((resolve, reject) => {
     GameModel.findOneAndUpdate({ "_id": userId, "inventory.id": item }, {
       $inc: {
-        "inventory.$.count": amount
-      }
+        "inventory.$.count": amount,
+      },
     }).then((res) => {
       if (!res) {
         GameModel.findOneAndUpdate({ _id: userId }, {
           $push: {
             inventory: {
               id: item,
-              count: amount
-            }
-          }
+              count: amount,
+            },
+          },
         }, { upsert: upsert }).then(resolve).catch(reject);
       } else {
         resolve(res);
@@ -65,23 +65,23 @@ export function subtractUserInventory(userId: string, item: string, count: numbe
     GameModel.aggregate([
       {
         $match: {
-          _id: userId
-        }
+          _id: userId,
+        },
       },
       {
-        $unwind: "$inventory"
+        $unwind: "$inventory",
       },
       {
         $match: {
-          "inventory.id": item
-        }
+          "inventory.id": item,
+        },
       },
       {
         $project: {
           _id: 0,
-          count: "$inventory.count"
-        }
-      }
+          count: "$inventory.count",
+        },
+      },
     ]).then(async ([res]) => {
       if (!res?.count) {
         return resolve(0);
@@ -93,17 +93,17 @@ export function subtractUserInventory(userId: string, item: string, count: numbe
         GameModel.findOneAndUpdate({ _id: userId }, {
           $pull: {
             inventory: {
-              id: item
-            }
-          }
+              id: item,
+            },
+          },
         }).then(() => {
           return resolve(res.count);
         }).catch(reject);
       } else {
         GameModel.findOneAndUpdate({ "_id": userId, "inventory.id": item }, {
           $set: {
-            "inventory.$.count": resultCount
-          }
+            "inventory.$.count": resultCount,
+          },
         }).then(() => {
           return resolve(count);
         }).catch(reject);
@@ -117,23 +117,23 @@ export function hasUserInventory(userId: string, item: string) {
     GameModel.aggregate([
       {
         $match: {
-          _id: userId
-        }
+          _id: userId,
+        },
       },
       {
-        $unwind: "$inventory"
+        $unwind: "$inventory",
       },
       {
         $match: {
-          "inventory.id": item
-        }
+          "inventory.id": item,
+        },
       },
       {
         $project: {
           _id: 0,
           count: "$inventory.count",
-        }
-      }
+        },
+      },
     ]).then(([res]) => {
       return resolve(res?.count ?? 0);
     }).catch(reject);
@@ -175,11 +175,11 @@ export function getUser(userId: string, data?: keyof IGame | (keyof IGame)[]) {
 
       GameModel.aggregate([
         {
-          $match: { _id: userId }
+          $match: { _id: userId },
         },
         {
-          $project: project
-        }
+          $project: project,
+        },
       ]).then(([res]) => {
         if (Array.isArray(data)) {
           resolve(res);
@@ -193,7 +193,7 @@ export function getUser(userId: string, data?: keyof IGame | (keyof IGame)[]) {
   });
 }
 
-export function setUser(filter: string | mongoose.FilterQuery<unknown>, data: mongoose.UpdateQuery<unknown>, upsert: boolean = false) {
+export function setUser(filter: string | mongoose.FilterQuery<unknown>, data: mongoose.UpdateQuery<unknown>, upsert = false) {
   return new Promise((resolve, reject) => {
     if (typeof filter == "string") {
       filter = { _id: filter };

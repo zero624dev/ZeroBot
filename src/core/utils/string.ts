@@ -6,7 +6,6 @@ const rJong = ["", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ"
   "ㄿ", "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ",
   "ㅍ", "ㅎ"];
 
-
 function handleSyllables(arr: string[]) {
   const resultarr: string[] = [];
   const chos: string[] = [];
