@@ -16,7 +16,7 @@ export interface IScripts {
 export default class BlueArchiveLogo extends SubCommand {
   sprites = new Collection<string, Buffer>();
   scripts: Partial<Record<Locale, IScripts>> = {};
-  fontDir: string = path.join(import.meta.dir, "../../../media/fonts/BlueArchiveTitle-Bold.otf");
+  // fontDir: string = path.join(import.meta.dir, "../../../media/fonts/BlueArchiveTitle-Bold.otf");
 
   constructor(parent: Command) {
     super(parent, {
@@ -130,7 +130,7 @@ export default class BlueArchiveLogo extends SubCommand {
             rgba: true,
             dpi: 1000,
             font: "BlueArchiveTitle",
-            fontfile: this.fontDir,
+            // fontfile: this.fontDir,
           },
         }).affine([1, -0.4, 0, 1], { background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer({ resolveWithObject: true });
 
@@ -140,7 +140,7 @@ export default class BlueArchiveLogo extends SubCommand {
             rgba: true,
             dpi: 1000,
             font: "BlueArchiveTitle",
-            fontfile: this.fontDir,
+            // fontfile: this.fontDir,
           },
         }).toBuffer({ resolveWithObject: true }).then(({ info }) => info.width!);
         const archiveWidth = bluearchive.info.width! - blueWidth;
@@ -197,7 +197,7 @@ export default class BlueArchiveLogo extends SubCommand {
             },
           }).affine([1, -0.4, 0, 1], { background: { r: 0, g: 0, b: 0, alpha: 0 } });
 
-          let underTextWidth = await underText.metadata().then((md) => md.width!);
+          let underTextWidth = await underText.metadata().then((md) => md.width);
 
           const maxWidth = logoWidth > 500 ? logoWidth - haloOffset - 150 : archiveWidth;
           if (underTextWidth > maxWidth) {
