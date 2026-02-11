@@ -140,10 +140,12 @@ export function hasUserInventory(userId: string, item: string) {
   });
 }
 
-export function addUserWallet(userId: string, amount: number, upsert = false) {
-  return new Promise((resolve, reject) => {
-    GameModel.updateOne({ _id: userId }, { $inc: { wallet: amount } }, { upsert: upsert }).then(resolve).catch(reject);
-  });
+export async function addUserWallet(userId: string, amount: number, upsert = false): Promise<number> {
+  const user = await GameModel.updateOne<IGame>(
+    { _id: userId },
+    { $inc: { wallet: amount } },
+    { new: true, upsert: upsert }).lean<IGame>(); ;
+  return user.wallet;
 }
 
 export function subtractUserWallet(userId: string, amount: number, upsert = false) {

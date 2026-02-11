@@ -5,7 +5,7 @@ import {
   type Locale,
 } from "discord.js";
 import { SubCommand, type Command } from "../../../core/types";
-import { addUserWallet, getUser } from "../../../addons/database/repository/GameRepo";
+import { addUserWallet } from "../../../addons/database/repository/GameRepo";
 import { colors } from "../../../config";
 
 export interface IScripts {
@@ -41,34 +41,26 @@ export default class Beg extends SubCommand {
     });
   }
 
-  chatInput(interaction: ChatInputCommandInteraction) {
-    return new Promise<InteractionReplyOptions>((resolve, reject) => {
-      const scripts = this.scripts[interaction.locale] ?? this.scripts["en-US"]!;
+  async chatInput(interaction: ChatInputCommandInteraction): Promise<InteractionReplyOptions> {
+    const scripts = this.scripts[interaction.locale] ?? this.scripts["en-US"]!;
 
-      getUser(interaction.user.id, "wallet").then((wallet) => {
-        const outcome = this.calcAmount();
-        addUserWallet(interaction.user.id, outcome).then(() => {
-          resolve({
-            embeds: [
-              {
-                title: scripts.user_beg(interaction.user.tag),
-                fields: [
-                  {
-                    name: scripts.balance,
-                    value: `${((wallet ?? 0) + outcome).toLocaleString(interaction.locale)} (+${Math.abs(outcome).toLocaleString(interaction.locale)})`,
-                    inline: true,
-                  },
-                ],
-                color: colors.accent,
-              },
-            ],
-          });
-        }).catch(reject);
-      }).catch(reject);
-    });
-  }
+    const outcome = Math.floor(Math.pow(1.08648, Math.random() * 100) + 999);
+    const userWallet = await addUserWallet(interaction.user.id, outcome);
 
-  calcAmount() {
-    return Math.floor(Math.pow(1.08648, Math.random() * 100) + 999);
+    return {
+      embeds: [
+        {
+          title: scripts.user_beg(interaction.user.tag),
+          fields: [
+            {
+              name: scripts.balance,
+              value: `${userWallet.toLocaleString(interaction.locale)} (+${Math.abs(outcome).toLocaleString(interaction.locale)})`,
+              inline: true,
+            },
+          ],
+          color: colors.accent,
+        },
+      ],
+    };
   }
 }
