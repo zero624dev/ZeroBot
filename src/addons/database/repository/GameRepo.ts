@@ -141,10 +141,16 @@ export function hasUserInventory(userId: string, item: string) {
 }
 
 export async function addUserWallet(userId: string, amount: number, upsert = false): Promise<number> {
-  const user = await GameModel.updateOne<IGame>(
+  const user = await GameModel.findOneAndUpdate(
     { _id: userId },
     { $inc: { wallet: amount } },
-    { new: true, upsert: upsert }).lean<IGame>(); ;
+    { new: true, upsert: upsert }
+  ).lean<IGame>();
+
+  if (!user) {
+    throw new Error("User not found or update failed");
+  }
+
   return user.wallet;
 }
 

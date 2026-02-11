@@ -60,6 +60,7 @@ mongoose.connection.on("error", (err) => {
 
 // When the connection is disconnected
 mongoose.connection.on("disconnected", () => {
+  mongoose.connect(MONGODB_URI, options).catch(console.error);
   sendLog(client, {
     embeds: [{
       title: "Mongoose Event",
