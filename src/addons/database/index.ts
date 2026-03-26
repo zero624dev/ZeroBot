@@ -3,6 +3,7 @@ import { colors, MONGODB_URI } from "../../config";
 import { client } from "../../bot";
 import { sendLog } from "../../core/logger";
 import { StringUtils } from "../../core/utils/utils";
+import "./models/Log";
 
 const options = {
   autoIndex: true, // Build indexes
