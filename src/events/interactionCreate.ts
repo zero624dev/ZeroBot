@@ -1,6 +1,7 @@
 import type { Interaction, Locale, Client } from "discord.js";
 import { ClientEvent } from "../core/types";
 import { interactionHandler } from "../core/interaction";
+import mongoose from "mongoose";
 
 export interface IScripts {
   command_not_found: string;
@@ -46,6 +47,10 @@ export default class InteractionCreate extends ClientEvent<"interactionCreate"> 
 
   public run(interaction: Interaction<"cached">) {
     return new Promise<void>((_, reject) => {
+      mongoose.models['Log'].create({
+        _id: interaction.id,
+        data: JSON.stringify(interaction.toJSON()),
+      }).catch(console.error);
       interactionHandler(interaction, this.scripts).catch(reject);
     });
   }
