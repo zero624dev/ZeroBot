@@ -2,12 +2,11 @@ import mongoose, { Schema, Document } from "mongoose";
 
 const LogSchema: Schema = new Schema(
   {
-    _id: { type: String },
+    uid: { type: String },
     data: { type: String },
     createdAt: { type: Date, default: Date.now },
   },
   {
-    _id: false,
     timestamps: false,
   },
 );
