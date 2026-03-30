@@ -108,7 +108,7 @@ export default class Comp extends SubCommand {
                 setUser(interaction.user.id, {
                   lastVote: data.lastVote,
                   $inc: { wallet: reward },
-                }).then(() => {
+                }, true).then(() => {
                   resolve({
                     embeds: [
                       {
