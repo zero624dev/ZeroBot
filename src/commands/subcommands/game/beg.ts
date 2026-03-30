@@ -45,7 +45,7 @@ export default class Beg extends SubCommand {
     const scripts = this.scripts[interaction.locale] ?? this.scripts["en-US"]!;
 
     const outcome = Math.floor(Math.pow(1.08648, Math.random() * 100) + 999);
-    const userWallet = await addUserWallet(interaction.user.id, outcome);
+    const userWallet = await addUserWallet(interaction.user.id, outcome, true);
 
     return {
       embeds: [
