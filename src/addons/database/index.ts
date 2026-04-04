@@ -26,14 +26,10 @@ mongoose
     schema.pre("update", setRunValidators);
   })
   .connect(MONGODB_URI, options)
-  .then(() => {
-    console.log("Mongoose connection done");
-  })
   .catch((e) => {
-    console.log("Mongoose connection error");
     sendLog(client, {
       embeds: [{
-        title: "Mongoose connection error",
+        title: `[Shard ${client.shard?.ids.join(", ")}] Mongoose connection error`,
         description: `<t:${Math.floor(Date.now() / 1000)}:R>`,
         color: colors.error,
       }],
@@ -41,41 +37,24 @@ mongoose
     console.error(e);
   });
 
-// CONNECTION EVENTS
-// When successfully connected
-// mongoose.connection.on('connected', () => {
-//     console.debug('Mongoose default connection open to ' + dbURI);
-// });
-
-// If the connection throws an error
 mongoose.connection.on("error", (err) => {
   console.error("Mongoose default connection error: " + err);
   sendLog(client, {
     embeds: [{
-      title: "Mongoose default connection error: ",
+      title: `[Shard ${client.shard?.ids.join(", ")}] Mongoose default connection error: `,
       description: `\`\`\`\n${StringUtils.ellipsis((err ?? "").toString(), 4000)}\n\`\`\``,
       color: colors.error,
     }],
   });
 });
 
-// When the connection is disconnected
 mongoose.connection.on("disconnected", () => {
-  mongoose.connect(MONGODB_URI, options).catch(console.error);
   sendLog(client, {
     embeds: [{
-      title: "Mongoose Event",
+      title: `[Shard ${client.shard?.ids.join(", ")}]`,
       description: "Mongoose default connection disconnected",
       color: colors.error,
     }],
-  });
-});
-
-// If the Node process ends, close the Mongoose connection
-process.on("SIGINT", () => {
-  mongoose.connection.close().finally(() => {
-    sendLog(client, "Mongoose default connection disconnected through app termination");
-    process.exit(0);
   });
 });
 
